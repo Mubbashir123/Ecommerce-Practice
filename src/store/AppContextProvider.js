@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppContext from "./app-context";
 import initialProduct from "../components/data/products.json"
 
@@ -6,7 +6,7 @@ const AppContextProvider = ({children}) => {
   const [showCart, setShowCart] = useState(false);
   const [showAddProduct, setShowProduct] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [products, setProducts] = useState(initialProduct);
+  const [products, setProducts] = useState([]);
   const openCart = () => setShowCart(true);
   const closeCart = () => setShowCart(false);
   const openAddProduct = () => setShowProduct(true);
@@ -62,6 +62,16 @@ const AppContextProvider = ({children}) => {
     setProducts((state) => [...state, product]);
     setShowProduct(false);
   };
+  useEffect(()=>{
+    const fetchProducts=async()=>
+    {
+      const response=await fetch("https://react-store-de73c-default-rtdb.firebaseio.com/products.json");
+      const data=await response.json();
+      setProducts(data);
+      console.log(data);
+    };
+    fetchProducts();
+  },[]);
   const appContextValue = {
     handleAddProduct,
     closeAddProduct,
