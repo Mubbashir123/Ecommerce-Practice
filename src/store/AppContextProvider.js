@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import AppContext from "./app-context";
 import initialProduct from "../components/data/products.json"
+import { body } from "framer-motion/client";
 
 const AppContextProvider = ({children}) => {
   const [showCart, setShowCart] = useState(false);
   const [showAddProduct, setShowProduct] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
+  const [isLoading,setIsLoading]=useState(false);
   const openCart = () => setShowCart(true);
   const closeCart = () => setShowCart(false);
   const openAddProduct = () => setShowProduct(true);
@@ -59,16 +61,35 @@ const AppContextProvider = ({children}) => {
       name: productName,
       image: "default_product.png",
     };
-    setProducts((state) => [...state, product]);
+    sendProductData(product);
+    setProducts((state)=>
+    {
+      return{...state,[Object.keys(state).length+1]:product};
+    })
     setShowProduct(false);
   };
+  const sendProductData= async (product)=>
+  {
+    const response=await fetch("https://react-store-de73c-default-rtdb.firebaseio.com/products.json",
+      {
+        method:"POST",
+        body:JSON.stringify(product)
+      }
+      
+    );
+    const data=await response.json();
+    console.log(data);
+  }
   useEffect(()=>{
     const fetchProducts=async()=>
-    {
-      const response=await fetch("https://react-store-de73c-default-rtdb.firebaseio.com/products.json");
+    { setIsLoading(true);
+      setTimeout(async () => {
+        const response=await fetch("https://react-store-de73c-default-rtdb.firebaseio.com/products.json");
       const data=await response.json();
+      setIsLoading(false);
       setProducts(data);
-      console.log(data);
+      }, 3000);
+      
     };
     fetchProducts();
   },[]);
@@ -79,6 +100,7 @@ const AppContextProvider = ({children}) => {
     openCart,
     closeCart,
     showAddProduct,
+    isLoading,
     products,
     showCart,
     cartItems,

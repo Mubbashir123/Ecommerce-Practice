@@ -2,7 +2,7 @@
 import { useContext } from "react";
 import "./Products.css";
 import AppContext from "../../store/app-context";
-
+import { LoaderThree } from "../UI/Loader/loader.tsx";
 function Product({id,name,image})
 {   const {handleAddToCart}=useContext(AppContext)
    return( <div key={id} className="product">
@@ -12,16 +12,20 @@ function Product({id,name,image})
                 </div>);
 }
 function Products()
-{   const {products}=useContext(AppContext);
+{   const {products,isLoading}=useContext(AppContext);
+    if(isLoading)
+    {
+        return (<div><LoaderThree/></div>);
+    }
     return(
         <div className="products-container">
         {
-            products.map((product) => (
+            Object.keys(products).map((k) => (
                 <Product
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    image={product.image}
+                    key={k}
+                    id={products[k].id}
+                    name={products[k].name}
+                    image={products[k].image}
                     
                 />
                 

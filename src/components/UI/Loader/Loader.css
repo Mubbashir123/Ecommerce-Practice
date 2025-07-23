@@ -1,0 +1,36 @@
+.loader-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Center vertically in viewport */
+}
+
+.loader-row {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between items */
+}
+
+.loader-dot {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  border: 1px solid #d1d5db;
+  background: linear-gradient(to bottom, #a3a3a3, #d4d4d4);
+}
+
+.loader-dot-alt {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.loader-three-svg {
+  height: 5rem;
+  width: 5rem;
+  stroke: #737373;
+  --fill-final: #fde047;
+  --fill-initial: #fafafa;
+}

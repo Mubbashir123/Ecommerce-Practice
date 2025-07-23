@@ -11,6 +11,7 @@ const AppContext= createContext({
     products:[],
     showCart:false,
     cartItems:[],
+    isLoading:false,
     handleDecreaseQuantity:()=>{},
     handleIncreaseQuantity:()=>{},
     handleAddToCart:()=>{},
